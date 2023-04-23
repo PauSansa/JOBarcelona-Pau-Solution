@@ -9,7 +9,7 @@ To improve user interaction, this project is based on the creation of a small se
 
 ## Media
 
-![Project Demonstration](media/demostration.gif)
+![Project Demonstration](./media/demostration.gif)
 
 ## Objectives:
  - Create a basic server that displays the message: "GitHub social login implementation" on the first route.
