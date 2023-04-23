@@ -22,10 +22,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class MainController {
     private final UserService userService;
-    private OAuth2AuthorizedClientService authorizedClientService;
+    private final OAuth2AuthorizedClientService authorizedClientService;
+
+    @GetMapping("/star")
+    public String starRepository() {
+
+        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        String clientId = "eec7b082e94b5988a490";
+        String principalName = authToken.getName();
+
+
+        OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(clientId, principalName);
+
+        OAuth2AccessToken accessToken = client.getAccessToken();
+        String tokenValue = accessToken.getTokenValue();
+
+        // Usar el tokenValue para hacer llamadas a la API de GitHub y dar un star al repositorio
+
+        return "redirect:/";
+    }
+
     @GetMapping()
     public String index(HttpServletRequest request,Model model){
         OAuth2AuthenticationToken auth = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+
+
+
+
         String name = auth.getPrincipal().getAttribute("name");
         if(name != null || !name.isEmpty()){
             model.addAttribute("name", name);
