@@ -8,19 +8,21 @@
 <body>
 <div class="container mt-4">
   <br> <br>
+  <h1 class="display-5 fw-bold text-body-emphasis">User Registry</h1>
   <table class="table">
     <thead>
     <tr>
       <th>ID</th>
       <th>Avatar</th>
-      <th>email</th>
+      <th>Email/Profile Link</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user:${users}">
       <td th:text="${user.id}"></td>
-      <td th:text="${user.avatarUrl}"></td>
+      <td><img th:src="${user.avatarUrl}" height="50px" width="50px"></img></td>
       <td th:text="${user.email}"></td>
+
 
     </tr>
     </tbody>
