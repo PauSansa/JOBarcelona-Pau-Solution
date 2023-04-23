@@ -3,7 +3,13 @@ package com.example.lastoauth.controllers;
 import com.example.lastoauth.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +22,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class MainController {
     private final UserService userService;
+    private OAuth2AuthorizedClientService authorizedClientService;
     @GetMapping()
-    public String index(){
+    public String index(HttpServletRequest request,Model model){
+        OAuth2AuthenticationToken auth = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getPrincipal().getAttribute("name");
+        if(name != null || !name.isEmpty()){
+            model.addAttribute("name", name);
+        }else{
+            model.addAttribute("name","Anonimo");
+        }
+
+
+
         return "index";
     }
 

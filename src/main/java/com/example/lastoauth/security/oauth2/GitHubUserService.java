@@ -29,7 +29,7 @@ public class GitHubUserService implements OAuth2UserService<OAuth2UserRequest, O
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
-
+        String loginName = oAuth2User.getAttribute("login");
         String email = oAuth2User.getAttribute("email");
         String avatarUrl = oAuth2User.getAttribute("avatar_url");
 
@@ -46,6 +46,7 @@ public class GitHubUserService implements OAuth2UserService<OAuth2UserRequest, O
                     .avatarUrl(avatarUrl)
                     .email(email)
                     .password("")
+                    .loginName(loginName)
                     .role(Role.USER)
                     .build();
             userService.createUser(userDetails);

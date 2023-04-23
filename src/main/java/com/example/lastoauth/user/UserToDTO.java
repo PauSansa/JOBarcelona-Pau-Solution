@@ -12,6 +12,7 @@ public class UserToDTO implements Function<User,UserDTO> {
                 .id(user.getId())
                 .email(user.getEmail())
                 .avatarUrl(user.getAvatarUrl())
+                .loginName(user.getLoginName())
                 .build();
     }
 }

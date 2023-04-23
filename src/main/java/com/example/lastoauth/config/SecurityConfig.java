@@ -55,7 +55,7 @@ public class SecurityConfig{
                 .and()
                 .oauth2Login()
                 .loginPage("/login")
-                .defaultSuccessUrl("/alfin")
+                .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
                 .userInfoEndpoint()
                 .userService(gitHubUserService)
