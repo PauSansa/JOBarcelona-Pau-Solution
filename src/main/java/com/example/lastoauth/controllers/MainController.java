@@ -3,6 +3,7 @@ package com.example.lastoauth.controllers;
 import com.example.lastoauth.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping
@@ -27,25 +33,56 @@ public class MainController {
     @GetMapping("/star")
     public String starRepository() {
 
-        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        String clientId = "eec7b082e94b5988a490";
-        String principalName = authToken.getName();
 
+        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        if(authToken == null){
+            return "redirect:/";
+        }
+        String clientId = authToken.getAuthorizedClientRegistrationId();
+        String principalName = authToken.getName();
 
         OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(clientId, principalName);
 
         OAuth2AccessToken accessToken = client.getAccessToken();
         String tokenValue = accessToken.getTokenValue();
 
-        // Usar el tokenValue para hacer llamadas a la API de GitHub y dar un star al repositorio
 
-        return "redirect:/";
+
+
+
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + tokenValue);
+        headers.set("Content-Length", "0");
+        headers.set("Accept", "application/vnd.github+json");
+        headers.set("X-GitHub-Api-Version", "2022-11-28");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        String url = "https://api.github.com/user/starred/PauSansa/JOBarcelona-Pau-Solution";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+
+
+        if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+            System.out.println("Starred repository ");
+        } else {
+            System.out.println("Error starring repository ");
+        }
+
+
+        return "redirect:/?starred=true";
     }
 
+
     @GetMapping()
-    public String index(HttpServletRequest request,Model model){
+    public String index(HttpServletRequest request,Model model, @RequestParam(required = false) String starred){
         OAuth2AuthenticationToken auth = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
+        if(starred != null){
+            model.addAttribute("starred","You have been starred this repo succesfully!");
+        }
 
 
 

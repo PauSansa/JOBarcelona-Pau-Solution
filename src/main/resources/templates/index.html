@@ -15,8 +15,11 @@
         <p class="lead mb-4">GitHub social login implementation</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <a href="/getall" class="btn btn-primary btn-lg px-4">VIEW ALL USERS</a>
-            <a href="https://github.com/PauSansa" class="btn btn-ouline-secondary btn-lg px-4 gap-3">Go to my Github</a>
+            <a href="/star" class="btn btn-ouline-secondary btn-lg px-4 gap-3">Star my Repo!</a>
         </div>
+    </div>
+    <div th:if="${starred}" class="badge text-bg-success rounded-pill">
+        <p th:text="${starred}"></p>
     </div>
 </div>
 </div>

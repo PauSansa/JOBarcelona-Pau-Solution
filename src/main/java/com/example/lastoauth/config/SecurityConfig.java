@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+import java.util.List;
 
 
 @Configuration
@@ -112,6 +112,7 @@ public class SecurityConfig{
                 .userInfoUri(githubUserInfoUri)
                 .userNameAttributeName("id")
                 .clientName("GitHub")
+                .scope(List.of("read:user","public_repo"))
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .build();
     }

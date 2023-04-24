@@ -7,6 +7,13 @@ Social logins are becoming an increasingly popular option for user registration.
 
 To improve user interaction, this project is based on the creation of a small server configured to create users and allow login using GitHub's social login (OAuth). In other words, a server will be created that will allow users to log in by authorizing their GitHub account and perform some actions with it.
 
+## Endpoints
+
+- / is the home and you can acces to all users or star my repo
+- /getall shows all the users
+- /stars my repo
+- /login login with oauth github
+
 ## Media
 
 ![Project Demonstration](./media/demostration.gif)
@@ -19,7 +26,7 @@ Firebase, etc.
 - Implement an endpoint that allows users to register using GitHub's authentication strategy and save user information to the database.
 
 - Create an endpoint that displays all registered users.
-- ~~Create an endpoint that allows giving a "star" to a repository.~~ Not implemented due to time constraints (I had only one day to make the challenge) 
+- Create an endpoint that allows giving a "star" to a repository 
 
 ## Technologies Used:
 - Java
